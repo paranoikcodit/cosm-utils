@@ -1,5 +1,3 @@
-use cosmrs::bip32;
-use cosmrs::bip32::secp256k1::elliptic_curve::rand_core::OsRng;
 use cosmrs::crypto::{secp256k1, PublicKey};
 use cosmrs::tendermint::block::Height;
 use cosmrs::tx::{Body, SignDoc, SignerInfo};
@@ -132,11 +130,11 @@ impl UserKey {
     }
 
     pub fn random_mnemonic(key_name: String) -> UserKey {
-        let mnemonic = bip32::Mnemonic::random(OsRng, Default::default());
+        let mnemonic = bip39::Mnemonic::generate(24).unwrap();
 
         UserKey {
             name: key_name,
-            key: Key::Mnemonic(mnemonic.phrase().to_string()),
+            key: Key::Mnemonic(mnemonic.to_string()),
         }
     }
 }
@@ -172,7 +170,7 @@ fn mnemonic_to_signing_key(
     mnemonic: &str,
     derivation_path: &str,
 ) -> Result<secp256k1::SigningKey, ChainError> {
-    let seed = bip32::Mnemonic::new(mnemonic, bip32::Language::English)
+    let seed = bip39::Mnemonic::parse(mnemonic)
         .map_err(|_| ChainError::Mnemonic)?
         .to_seed("");
 

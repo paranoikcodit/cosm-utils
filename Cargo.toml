@@ -16,6 +16,7 @@ license = "Apache-2.0"
 injective = ["dep:injective-std", "dep:ethers-signers"]
 
 [dependencies]
+# bip39 = "*"
 cosmrs = { version = "0.14.0", features = ["rpc", "cosmwasm", "grpc"] }
 tendermint-rpc = "0.32.0"
 tokio = { version = "1.20.1", features = ["full"] }
@@ -38,6 +39,7 @@ ecdsa = "0.16"
 ethers-signers = { version = "=2.0.11", optional = true }
 ethers = "=2.0.11"
 bech32 = "0.9.1"
+bip39 = { version = "2.0.0", features = ["rand_core", "rand"] }
 
 [dev-dependencies]
 tendermint-rpc = { version = "0.32.0", features = [
